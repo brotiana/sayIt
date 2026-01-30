@@ -1,7 +1,6 @@
 .htaccess
 clé.txt
 clean.py
-config.php
-database.sql
+
 .DS_Store
 Thumbs.db
