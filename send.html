@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envoyer un message anonyme - SayIt</title>
+    <meta name="description" content="Envoyez un message anonyme à quelqu'un.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="send-page">
+    
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg>
+                </div>
+                <span>SayIt</span>
+            </a>
+            <div class="nav-links">
+                <a href="register.html">Créer mon lien</a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <div class="send-container">
+        <div class="send-card card">
+            
+            <div id="formContainer">
+                <div class="recipient-info">
+                    <div class="recipient-avatar" id="recipientAvatar">?</div>
+                    <h2>Envoyer un message à</h2>
+                    <p id="recipientName">@utilisateur</p>
+                </div>
+
+                <div id="alertContainer"></div>
+
+                <form id="sendForm">
+                    <div class="form-group">
+                        <label class="form-label" for="messageInput">Votre message anonyme</label>
+                        <textarea id="messageInput" class="form-input"
+                            placeholder="Écrivez votre message ici... Cette personne ne saura jamais qui vous êtes!"
+                            required maxlength="5000"></textarea>
+                        <div class="char-count" id="charCount">0/5000</div>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" style="margin-right: 8px;">
+                            <line x1="22" y1="2" x2="11" y2="13" />
+                            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                        </svg>
+                        Envoyer anonymement
+                    </button>
+                </form>
+
+                <div class="text-center mt-3">
+                    <p
+                        style="color: var(--text-light); font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        Votre identité restera totalement anonyme
+                    </p>
+                </div>
+            </div>
+
+            
+            <div id="successContainer" class="hidden">
+                <div class="success-animation">
+                    <div class="success-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                    </div>
+                    <h2>Message envoyé!</h2>
+                    <p style="color: var(--text-gray); margin-bottom: 24px;">
+                        Votre message anonyme a été envoyé avec succès.
+                    </p>
+                    <a href="index.html" class="btn btn-secondary">Retour à l'accueil</a>
+                    <button onclick="location.reload()" class="btn btn-primary mt-2"
+                        style="display: block; width: 100%;">
+                        Envoyer un autre message
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 SayIt. <a href="register.html">Créer mon propre lien</a></p>
+        </div>
+    </footer>
+
+    <script src="js/send.js"></script>
+</body>
+
+</html>

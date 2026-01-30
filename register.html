@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - SayIt</title>
+    <meta name="description" content="Créez votre compte SayIt et commencez à recevoir des messages anonymes.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="auth-page">
+    
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg>
+                </div>
+                <span>SayIt</span>
+            </a>
+            <div class="nav-links">
+                <a href="login.html">Déjà un compte? Se connecter</a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <div class="auth-container">
+        <div class="auth-card card">
+            <div class="auth-header">
+                <h2>Créer un compte</h2>
+                <p>Inscrivez-vous pour obtenir votre lien unique</p>
+            </div>
+
+            <div id="alertContainer"></div>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label class="form-label" for="username">Nom d'utilisateur</label>
+                    <input type="text" id="username" class="form-input" placeholder="ex: john_doe" required
+                        pattern="[a-zA-Z0-9_]{3,50}" autocomplete="username">
+                    <small style="color: var(--text-light); font-size: 0.8rem; margin-top: 4px; display: block;">
+                        Lettres, chiffres et underscores uniquement (3-50 caractères)
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="email">Adresse email</label>
+                    <input type="email" id="email" class="form-input" placeholder="votre@email.com" required
+                        autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Mot de passe</label>
+                    <input type="password" id="password" class="form-input" placeholder="Minimum 10 caractères" required
+                        minlength="10" autocomplete="new-password">
+                    <small style="color: var(--text-light); font-size: 0.8rem; margin-top: 4px; display: block;">
+                        Minimum 10 caractères
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="confirmPassword">Confirmer le mot de passe</label>
+                    <input type="password" id="confirmPassword" class="form-input"
+                        placeholder="Répétez votre mot de passe" required minlength="10" autocomplete="new-password">
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%;">
+                    S'inscrire
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Déjà inscrit? <a href="login.html">Se connecter</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        // Check if already logged in
+        document.addEventListener('DOMContentLoaded', redirectIfLoggedIn);
+
+        // Handle form submission
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const submitBtn = document.getElementById('submitBtn');
+            const alertContainer = document.getElementById('alertContainer');
+
+            // Client-side validation
+            const usernameCheck = validateUsername(username);
+            if (!usernameCheck.valid) {
+                showAlert(alertContainer, 'error', usernameCheck.message);
+                return;
+            }
+
+            const emailCheck = validateEmail(email);
+            if (!emailCheck.valid) {
+                showAlert(alertContainer, 'error', emailCheck.message);
+                return;
+            }
+
+            const passwordCheck = validatePassword(password);
+            if (!passwordCheck.valid) {
+                showAlert(alertContainer, 'error', passwordCheck.message);
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showAlert(alertContainer, 'error', 'Les mots de passe ne correspondent pas');
+                return;
+            }
+
+            // Set loading state
+            setButtonLoading(submitBtn, true);
+
+            // Submit registration
+            const result = await register(username, email, password, confirmPassword);
+
+            setButtonLoading(submitBtn, false);
+
+            if (result.success) {
+                showAlert(alertContainer, 'success', 'Inscription réussie! Redirection...');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+            } else {
+                showAlert(alertContainer, 'error', result.message);
+            }
+        });
+    </script>
+</body>
+
+</html>

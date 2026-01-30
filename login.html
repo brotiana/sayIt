@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - SayIt</title>
+    <meta name="description" content="Connectez-vous à votre compte SayIt pour voir vos messages anonymes.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="auth-page">
+    
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg>
+                </div>
+                <span>SayIt</span>
+            </a>
+            <div class="nav-links">
+                <a href="register.html">Pas de compte? S'inscrire</a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <div class="auth-container">
+        <div class="auth-card card">
+            <div class="auth-header">
+                <h2>Connexion</h2>
+                <p>Accédez à votre tableau de bord</p>
+            </div>
+
+            <div id="alertContainer"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="username">Nom d'utilisateur</label>
+                    <input type="text" id="username" class="form-input" placeholder="Votre nom d'utilisateur" required
+                        autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Mot de passe</label>
+                    <input type="password" id="password" class="form-input" placeholder="Votre mot de passe" required
+                        autocomplete="current-password">
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%;">
+                    Se connecter
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Pas encore de compte? <a href="register.html">S'inscrire</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        // Check if already logged in
+        document.addEventListener('DOMContentLoaded', redirectIfLoggedIn);
+
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const submitBtn = document.getElementById('submitBtn');
+            const alertContainer = document.getElementById('alertContainer');
+
+            // Basic validation
+            if (!username || !password) {
+                showAlert(alertContainer, 'error', 'Veuillez remplir tous les champs');
+                return;
+            }
+
+            // Set loading state
+            setButtonLoading(submitBtn, true);
+
+            // Submit login
+            const result = await login(username, password);
+
+            setButtonLoading(submitBtn, false);
+
+            if (result.success) {
+                showAlert(alertContainer, 'success', 'Connexion réussie! Redirection...');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+            } else {
+                showAlert(alertContainer, 'error', result.message);
+            }
+        });
+    </script>
+</body>
+
+</html>
